@@ -69,7 +69,9 @@ class Payment(models.Model):
 
     amount = models.PositiveIntegerField(default=0, verbose_name="Стоимость")
 
-    payment_method = models.CharField(choices=PAYMENT_METHOD, default="Cash", verbose_name="Способ оплаты")
+    payment_method = models.CharField(
+        choices=PAYMENT_METHOD, default="Cash", verbose_name="Способ оплаты"
+    )
 
     class Meta:
         verbose_name = "Платеж"
