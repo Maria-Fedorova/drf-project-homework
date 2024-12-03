@@ -3,10 +3,11 @@ from rest_framework import filters
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 
 from users.models import Payment, User
 from users.serializers import PaymentSerializer, UserSerializer
+from users.services import create_stripe_product, create_stripe_price, create_stripe_session
 
 
 class UserViewSet(ModelViewSet):
@@ -25,7 +26,20 @@ class UserCreateAPIView(CreateAPIView):
         user.save()
 
 
-class PaymentViewSet(ModelViewSet):
+class PaymentCreateAPIView(CreateAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        price = create_stripe_price(payment.amount)
+        session_id, session_link = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.link = session_link
+        payment.save()
+
+
+class PaymentListAPIView(ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [

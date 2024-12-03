@@ -43,6 +43,10 @@ class Payment(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name="Платеж",
+
+        blank=True,
+        null=True,
+
     )
 
     date = models.DateField(
@@ -72,6 +76,15 @@ class Payment(models.Model):
     payment_method = models.CharField(
         choices=PAYMENT_METHOD, default="Cash", verbose_name="Способ оплаты"
     )
+
+    session_id = models.CharField(max_length=255,
+                                  verbose_name="ID сессии",
+                                  blank=True,
+                                  null=True, )
+    link = models.URLField(max_length=400,
+                                      verbose_name="Ссылка на оплату",
+                                      blank=True,
+                                      null=True, )
 
     class Meta:
         verbose_name = "Платеж"
