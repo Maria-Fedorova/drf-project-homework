@@ -25,8 +25,13 @@ class Course(models.Model):
         help_text="Укажите описание курса",
     )
 
-    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец курса", blank=True,
-                              null=True, )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец курса",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -71,8 +76,13 @@ class Lesson(models.Model):
         help_text="Укажите ссылку на видео урока",
     )
 
-    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец урока", blank=True,
-                              null=True, )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец урока",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Урок"
